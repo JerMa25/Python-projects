@@ -74,4 +74,5 @@ print(val)
 print(row_ind)
 print(col_ptr)
 print(get(2, 2, val, row_ind, col_ptr))
+print(set(0,1,4,val,col_ptr,row_ind))
   

@@ -84,8 +84,8 @@ val = A[0]
 col_ind = A[1]
 row_ptr = A[2]
 print("val:",val)
-print("col_ind",col_ind)
-print("row_ptr",row_ptr)
-print(get(0, 0, val, col_ind, row_ptr))
+print("col_ind:",col_ind)
+print("row_ptr:",row_ptr)
+print(get(2, 1, val, col_ind, row_ptr))
 print(set(0,0,5,val,col_ind,row_ptr))
 print(prodMatVectcrs(val, col_ind, row_ptr, [1,1,1]))
