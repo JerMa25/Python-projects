@@ -1,0 +1,42 @@
+import math
+import matplotlib.pyplot as plt
+import numpy as np
+from Schema_de_Horner import horner
+from interpolation import piL
+
+def f1(x):
+    return 1/(1 + x**2)
+
+def f2(x):
+    return 1/(1 + math.exp(-x**2))
+
+#Declaration of variables
+P,a,f=[],[],[]
+n=int(input("Entrer le nombre de pts d'interpolation: "))
+
+a = np.linspace(-25,25,n)
+"""the method above is equivalent to this:
+for i in range(n):
+    a.append(-25+(50*i)/(n-1))"""
+for i in range(n):
+    f.append(f1(a[i]))
+
+tab = piL(a,f)
+
+for i in range(len(a)):
+    P.append(horner(n-1,a[i],tab))
+
+print(a,tab,P)
+
+plt.plot(a, P, label="y = 1/(1 + x^2)", color="blue", linestyle="-", linewidth=2)
+
+# Ajouter des étiquettes et un titre
+plt.xlabel("Axe X")
+plt.ylabel("Axe Y")
+plt.title("Graphe de y = 1/(1 + x^2)")
+
+# Ajouter une légende
+plt.legend()
+
+# Afficher le graphe
+plt.show()
