@@ -7,13 +7,13 @@ def horner(n,x,coeff):
 def horner_Newton(n,x,a,coeff):
     y = coeff[n]
     for k in range(n-1,-1,-1):
-        y = y * (x - a[k+1]) + coeff[k]
+        y = y * (x - a[k]) + coeff[k]
     return y
 
 def horner_Taylor(n,x,a,coeff):
     y = coeff[n]
     for k in range(n-1,-1,-1):
-        y = y * ((x - a[k+1])/(k + 1)) + coeff[k]
+        y = y * ((x - a[k])/(k + 1)) + coeff[k]
     return y
 
 def horner_TaylorCentree(n,x,a0,coeff):
