@@ -1,44 +1,52 @@
-from math import exp
+from points_de_tchebychev import pts_tchebychev
+from pol_interpolation import pol
 import matplotlib.pyplot as plt
 import numpy as np
-from Schema_de_Horner import horner_Newton
-from pol_interpolation import piL
 
 def f1(x):
     return 1/(1 + x**2)
 
 def f2(x):
-    return 1/(1 + exp(-x**2))
+    return 1/(1 + np.exp(-x**2))
 
 #Declaration of variables
-P,a,f=[],[],[]
+a,f = [],[]
 n=int(input("Entrer le nombre de pts d'interpolation: "))
 
 #Tableau des points d'interpolation dans l'intervalle [-25,25]
-a = np.linspace(-25,25,n)
+#a = np.linspace(-25,25,n)
+a = pts_tchebychev(-25,25,n)
 """the method above is equivalent to this:
 for i in range(n):
     a.append(-25+(50*i)/(n-1))"""
 
-choix = int(input("Quel fonction souhaitiez vous implémenter?\n1. f(x) = 1/(1 + x²)\n2. f(x) = 1/(1 + exp(-x²))\n"))
+choix = int(input("Choisissez le polynôme à interpoler:\n1. f(x) = 1/(1 + x²)\n2. f(x) = 1/(1 + exp(-x²))\n"))
+
+#tableau des images des élts de a par f1 ou f2 selon le choix
 if choix == 1:
-    #Tableau des images des points de a par f1
     for i in range(n):
         f.append(f1(a[i]))
 else:
-    # Tableau des images des points de a par f2
     for i in range(n):
         f.append(f2(a[i]))
 
-#Tableau des coefficients du piL sous forme de Newton
-tab = piL(a,f)
+#Polynome d'interpolation de Lagrange
+P = pol(a,f)
 
-#Tableau des images des points de a par piL
-for i in range(n):
-    P.append(horner_Newton(n-1,a[i],a,tab))
-
-plt.plot(a, P, label="y = piL(x)", color="blue", linestyle="-", linewidth=2)
-plt.plot(a, f, label="y = f(x)", color="red", linestyle="--", linewidth=2)
+#Traçage des courbes
+x=np.linspace(-25,25,300)
+#y = P(x)
+plt.plot(x, P(x), label="y = piL(x)", color="blue", linestyle="-", linewidth=2)
+if choix == 1:
+    #y = f1(x)
+    plt.plot(x, f1(x), label="y = f(x)", color="yellow", linestyle="-", linewidth=2)
+    # y = E(x) = |f2(x) - P(x)|
+    plt.plot(x, abs(P(x) - f1(x)), label="y = |piL(x)-f(x)|", color="red", linestyle="--", linewidth=2)
+else:
+    #y = f2(x)
+    plt.plot(x, f2(x), label="y = f(x)", color="yellow", linestyle="--", linewidth=2)
+    #y = E(x) = |f2(x) - P(x)|
+    plt.plot(x, abs(P(x) - f2(x)), label="y = |piL(x)-f(x)|", color="red", linestyle="--", linewidth=2)
 
 # Ajouter des étiquettes et un titre
 plt.xlabel("Axe X")
