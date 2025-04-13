@@ -1,3 +1,5 @@
+from Schemas_de_Horner import horner_Newton
+
 def piL(a,f):
     T,coeff = [],[]
     for i in range(len(f)):
@@ -9,3 +11,9 @@ def piL(a,f):
     for i in range(len(f)):
         coeff.append(T[i][i])
     return coeff
+
+def pol(a,f):
+    coeff = piL(a,f)
+    def P(x):
+        return horner_Newton(len(a)-1,x,a,coeff)
+    return P
