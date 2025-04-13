@@ -62,6 +62,18 @@ def set(x:int,y:int,a,val,col_ptr,row_ind):
     val[col_ptr[y] + x - 1] = a
     return(val, row_ind, col_ptr)
 
+#Fonction qui effectue le produit d'une matrice sous format CRS avec un vecteur quelconque
+def prodMatVectccs(val, row_ind, col_ptr, vect):
+    # Initialisation du résultat (vecteur rempli de zéros)
+    resultat = [0.0] * len(vect)
+    
+    # Parcours de chaque colonne
+    for i in range(len(col_ptr)-1):
+        for k in range(col_ptr[i]-1, col_ptr[i+1]-1):
+            resultat[row_ind[k]] += val[k] * vect[i]
+    
+    return resultat
+
 
 #Phase de test
 A = [[1,2,3],[3,-1,3],[4,0,-2]]
@@ -70,9 +82,9 @@ print(A)
 val = A[0]
 row_ind = A[1]
 col_ptr = A[2]
+vect = [1,2,3]
 print(val)
 print(row_ind)
 print(col_ptr)
 print(get(2, 2, val, row_ind, col_ptr))
-print(set(0,1,4,val,col_ptr,row_ind))
-  
+print(prodMatVectccs(val, row_ind, col_ptr, vect))
